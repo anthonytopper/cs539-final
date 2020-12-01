@@ -1,7 +1,9 @@
-import np
+import numpy as np
 import parselmouth
 
 # parselmouth library https://parselmouth.readthedocs.io/en/stable/
+
+RATIO = 10
 
 def preproc_intensity(x,r):
     

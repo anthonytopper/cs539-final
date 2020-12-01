@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
@@ -7,7 +8,10 @@ from tempfile import TemporaryFile
 
 import load_sample
 
+file_list = ['AudioWAV/%s' % f for f in os.listdir('AudioWAV') if os.path.isfile('AudioWAV/%s' % f)][:200]
 
+SAMPLES_TRAIN = file_list[:int(len(file_list) * 0.7)]
+SAMPLES_TEST  = file_list[int(len(file_list) * 0.3):]
 
 def zeropad(input,size):
     x = input['x']
@@ -17,18 +21,22 @@ def zeropad(input,size):
     result['y'] = np.pad(y,((0,size-len(y)),(0,0)),'constant')
     return result
 
-samples_train = [load_sample.load(s) for s in SAMPLES_TRAIN]
-samples_test = [load_sample.load(s) for s in SAMPLES_TEST]
+samples_train = [load_sample.load(s) for s in SAMPLES_TRAIN] 
+samples_test  = [load_sample.load(s) for s in SAMPLES_TEST]
+
+# Remove skipped
+samples_train = [s for s in samples_train if s]
+samples_test  = [s for s in samples_test  if s]
 
 # Maximum size for all samples
 max_size = max([len(s['x']) for s in (samples_train+samples_test)])
 
 samples_train = [zeropad(s,max_size) for s in samples_train]
-samples_test = [zeropad(s,max_size) for s in samples_test]
+samples_test  = [zeropad(s,max_size) for s in samples_test]
 
 
-tf.reset_default_graph()
-K.clear_session()
+# tf.reset_default_graph()
+# K.clear_session()
 
 #np.array([[next(([i] for i, x in enumerate(m) if x), None) for m in midi_samples[20000:23657]]])
 
@@ -54,7 +62,10 @@ model.add(LSTM(255, input_shape=input_shape, return_sequences=True)) # CuDNNLSTM
 model.add(LSTM(30, input_shape=input_shape, return_sequences=True))
 # model.add(Dropout(0.2))
 # model.add(Activation('relu'))
-model.add(TimeDistributed(Dense(30, activation='softmax')))
+# 
+# model.add(TimeDistributed(Dense(3, activation='softmax')))
+model.add(Dense(30, activation='softmax'))
+model.add(Dense(3, activation='softmax'))
 # model.add(Dropout(0.2))
 
 
@@ -77,4 +88,4 @@ print('done fitting')
 print(model.evaluate(x_test,y_test))
 print('done evaluating')
 
-model.save(MODEL_ID+'.h5')
+# model.save(MODEL_ID+'.h5')

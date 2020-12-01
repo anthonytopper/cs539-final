@@ -8,16 +8,26 @@ import json
 import tensorflow as tf
 import math
 
-def load(sample_id):
+labels = ['ANG','SAD','HAP']
 
-    rate, data = wavfile.read(sample_id+'.wav') # load the data
+from preprocess_parselmouth import preproc_intensity
+
+def load(filename):
+
+    y = get_label(filename)
+
+    if y is None:
+        print('Skipping %s' % filename)
+        return
+
+    rate, data = wavfile.read(filename) # load the data
     normalized = [(e / 2 ** 8.) * 2 - 1 for e in data] # normalized on [-1,1)
 
     freq_boxes = []
 
-    sample_step = 10
-    sample_rate = 8000
-    NFFT = 512
+    sample_step = 50
+    sample_rate = 16000
+    NFFT = 1024
     duration = len(normalized) / rate # seconds
     window = np.hanning(NFFT)
 
@@ -33,5 +43,17 @@ def load(sample_id):
     # plt.specgram(normalized,NFFT=256, Fs=2, Fc=0)
     # plt.savefig(sample_id+'-specgram.png')
 
-    return freq_boxes
+    x = freq_boxes
 
+    x = np.array(preproc_intensity(data,rate)).T
+
+    print('Done parsing %s with %d samples of size %d each' % (filename,len(x),len(x[0])))
+
+    return {'x':x,'y':y}
+
+def get_label(filename):
+    for i,l in enumerate(labels):
+        if l in filename:
+            return tf.one_hot([i], len(labels))
+
+    return None
