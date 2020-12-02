@@ -8,7 +8,7 @@ import json
 import tensorflow as tf
 import math
 
-labels = ['ANG','SAD','HAP']
+labels = ['SAD','HAP'] # 'ANG'
 
 from preprocess_parselmouth import preproc_intensity
 

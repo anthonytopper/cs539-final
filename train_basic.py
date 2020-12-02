@@ -8,7 +8,7 @@ from tempfile import TemporaryFile
 
 import load_sample
 
-file_list = ['AudioWAV/%s' % f for f in os.listdir('AudioWAV') if os.path.isfile('AudioWAV/%s' % f)][:200]
+file_list = ['AudioWAV/%s' % f for f in os.listdir('AudioWAV') if os.path.isfile('AudioWAV/%s' % f)]
 
 SAMPLES_TRAIN = file_list[:int(len(file_list) * 0.7)]
 SAMPLES_TEST  = file_list[int(len(file_list) * 0.3):]
@@ -52,8 +52,26 @@ y_test = np.array([s['y'] for s in samples_test])
 # x_test = np.array([freq_boxes[n_input_train:n_total]])
 # y_test = np.array([[tf.keras.utils.to_categorical(np.argmax(m),30) for m in midi_samples[n_input_train:n_total]]])
 
+np.save('preprocessed1.npz',np.array([x_train,y_train,x_test,y_test]))
 
 input_shape = (None,x_train.shape[2])
+
+print('x_train',x_train)
+print('y_train',y_train)
+print('x_test',x_test)
+print('y_test',y_test)
+
+counts = np.array([0,0])
+for y in y_train:
+  counts += y
+
+print('y_train counts',counts)
+
+counts = np.array([0,0])
+for y in y_test:
+  counts += y
+
+print('y_test counts',counts)
 
 model = Sequential()
 
@@ -65,14 +83,14 @@ model.add(LSTM(30, input_shape=input_shape, return_sequences=True))
 # 
 # model.add(TimeDistributed(Dense(3, activation='softmax')))
 model.add(Dense(30, activation='softmax'))
-model.add(Dense(3, activation='softmax'))
+model.add(Dense(2, activation='softmax'))
 # model.add(Dropout(0.2))
 
 
 opt = tf.keras.optimizers.Adam(lr=0.001, decay=1e-6)
 print(model.summary()) 
 model.compile(
-    loss='categorical_crossentropy',
+    loss='binary_crossentropy',
     optimizer=opt,
     metrics=['categorical_accuracy'],
 )
