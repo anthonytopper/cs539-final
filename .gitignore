@@ -1,4 +1,4 @@
 AudioWAV/
 __pycache__/
 *.zip
-
+*.npy

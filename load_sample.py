@@ -8,7 +8,7 @@ import json
 import tensorflow as tf
 import math
 
-labels = ['SAD','HAP'] # 'ANG'
+labels = ['SAD','HAP']#, 'ANG']
 
 from preprocess_parselmouth import preproc_intensity
 
@@ -38,7 +38,6 @@ def load(filename):
         freq = freq[:(math.floor(len(freq)/2))]
         freq = np.real(freq)
         freq_boxes.append(freq)
-        
 
     # plt.specgram(normalized,NFFT=256, Fs=2, Fc=0)
     # plt.savefig(sample_id+'-specgram.png')
@@ -52,8 +51,10 @@ def load(filename):
     return {'x':x,'y':y}
 
 def get_label(filename):
-    for i,l in enumerate(labels):
+    y = [0] * len(labels)
+    for i, l in enumerate(labels):
         if l in filename:
-            return tf.one_hot([i], len(labels))
+            y[i] = 1
+            return y
 
     return None

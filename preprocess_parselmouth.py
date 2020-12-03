@@ -9,9 +9,12 @@ def preproc_intensity(x,r):
     
     features = []
     
+
     snd = parselmouth.Sound(x,r)
+
     intensity = snd.to_intensity()
     features.append(signorm(intensity.values[0]))
+    
     
     spec = snd.to_spectrogram()
     spec = signorm(spec.values.T)
@@ -19,7 +22,7 @@ def preproc_intensity(x,r):
     
     harmonicity = snd.to_harmonicity()
     features.append([harmonicity.get_value(t) for t in np.arange(0,harmonicity.get_total_duration(),RATIO/r)])
-    
+
     pitch = snd.to_pitch()
     features.append([pitch.get_value_at_time(t) for t in np.arange(0,pitch.get_total_duration(),RATIO/r)])
     
