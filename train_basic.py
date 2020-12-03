@@ -18,7 +18,8 @@ def zeropad(input,size):
     y = input['y']
     result = {}
     result['x'] = np.pad(x,((0,size-len(x)),(0,0)),'constant')
-    result['y'] = np.pad(y,((0,size-len(y)),(0,0)),'constant')
+    result['y'] = y
+
     return result
 
 samples_train = [load_sample.load(s) for s in SAMPLES_TRAIN] 
@@ -52,26 +53,8 @@ y_test = np.array([s['y'] for s in samples_test])
 # x_test = np.array([freq_boxes[n_input_train:n_total]])
 # y_test = np.array([[tf.keras.utils.to_categorical(np.argmax(m),30) for m in midi_samples[n_input_train:n_total]]])
 
-np.save('preprocessed1.npz',np.array([x_train,y_train,x_test,y_test]))
-
 input_shape = (None,x_train.shape[2])
 
-print('x_train',x_train)
-print('y_train',y_train)
-print('x_test',x_test)
-print('y_test',y_test)
-
-counts = np.array([0,0])
-for y in y_train:
-  counts += y
-
-print('y_train counts',counts)
-
-counts = np.array([0,0])
-for y in y_test:
-  counts += y
-
-print('y_test counts',counts)
 
 model = Sequential()
 
@@ -100,7 +83,7 @@ print('done compiling')
 print(model.fit(x_train,
           y_train,
           verbose=2,
-          epochs=5))
+          epochs=10))
 
 print('done fitting')
 print(model.evaluate(x_test,y_test))
