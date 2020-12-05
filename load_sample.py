@@ -52,7 +52,7 @@ def load(filename):
 
 def get_label(filename):
     y = [0] * len(labels)
-    for i, l in enumerate(labels):
+    for i,l in enumerate(labels):
         if l in filename:
             y[i] = 1
             return y

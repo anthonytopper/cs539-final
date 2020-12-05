@@ -2,19 +2,37 @@ import os
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, LSTM, TimeDistributed, Activation, Flatten # CuDNNLSTM
+from tensorflow.keras.layers import Dense, Dropout, LSTM, TimeDistributed, Activation, Flatten, GRU # CuDNNLSTM
 from tensorflow.keras import backend as K
 from tempfile import TemporaryFile
-
+import pandas as pd
+import random
 import load_sample
 
 process = True
 
 if process:
-    file_list = ['AudioWAV/%s' % f for f in os.listdir('AudioWAV') if os.path.isfile('AudioWAV/%s' % f)]
+    def zeropad(input,size):
+        x = input['x']
+        y = input['y']
+        result = {}
+        result['x'] = np.pad(x,((0,size-len(x)),(0,0)),'constant')
+        result['y'] = y
 
-    SAMPLES_TRAIN = file_list[:int(len(file_list) * 0.7)]
-    SAMPLES_TEST  = file_list[int(len(file_list) * 0.3):]
+        return result
+    file_list = ['AudioWAV/%s' % f for f in os.listdir('AudioWAV') if os.path.isfile('AudioWAV/%s' % f)]
+    file_list = file_list[0:200]
+    
+    file_list = [load_sample.load(s) for s in file_list]
+    file_list = [s for s in file_list if s]
+    max_size = max([len(s['x']) for s in (file_list)])
+
+    file_list = [zeropad(s,max_size) for s in file_list]
+
+    random.shuffle(file_list)
+    
+    samples_train = file_list[:int(len(file_list) * 0.7)]
+    samples_test  = file_list[int(len(file_list) * 0.7):]
 
     def zeropad(input,size):
         x = input['x']
@@ -25,18 +43,18 @@ if process:
 
         return result
 
-    samples_train = [load_sample.load(s) for s in SAMPLES_TRAIN] 
-    samples_test  = [load_sample.load(s) for s in SAMPLES_TEST]
+    #samples_train = [load_sample.load(s) for s in SAMPLES_TRAIN] 
+    #samples_test  = [load_sample.load(s) for s in SAMPLES_TEST]
 
     # Remove skipped
-    samples_train = [s for s in samples_train if s]
-    samples_test  = [s for s in samples_test  if s]
+    #samples_train = [s for s in samples_train if s]
+    #samples_test  = [s for s in samples_test  if s]
 
     # Maximum size for all samples
-    max_size = max([len(s['x']) for s in (samples_train+samples_test)])
+    #max_size = max([len(s['x']) for s in (samples_train+samples_test)])
 
-    samples_train = [zeropad(s,max_size) for s in samples_train]
-    samples_test  = [zeropad(s,max_size) for s in samples_test]
+    #samples_train = [zeropad(s,max_size) for s in samples_train]
+    #samples_test  = [zeropad(s,max_size) for s in samples_test]
 
 
     # tf.reset_default_graph()
@@ -61,15 +79,20 @@ else:
     x_test = np.load('x_test.npy')
     y_test = np.load('y_test.npy')
 
+
+#a = input('Break')
 input_shape = (x_train.shape[1:])
 
+
 model = Sequential()
-model.add(Dense(512, input_shape=input_shape))
+model.add(GRU(512, return_sequences=True,dropout=0.2, input_shape=(x_train.shape[1],4)))
+model.add(GRU(256,dropout=0.2, return_sequences=True))
+#model.add(Dense(512))
 model.add(Flatten())
+#model.add(Dropout(0.2))
+model.add(Dense(126))
 model.add(Dropout(0.2))
-model.add(Dense(256))
-model.add(Dropout(0.2))
-model.add(Dense(128))
+model.add(Dense(30))
 model.add(Dropout(0.2))
 model.add(Dense(2, activation='softmax'))
 
@@ -86,7 +109,7 @@ print('done compiling')
 print(model.fit(x_train,
           y_train,
           verbose=2,
-          epochs=100))
+          epochs=10))
 
 print('done fitting')
 print(model.evaluate(x_test,y_test))
