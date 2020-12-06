@@ -21,7 +21,7 @@ if process:
 
         return result
     file_list = ['AudioWAV/%s' % f for f in os.listdir('AudioWAV') if os.path.isfile('AudioWAV/%s' % f)]
-    file_list = file_list[0:200]
+    file_list = file_list #[0:200]
     
     file_list = [load_sample.load(s) for s in file_list]
     file_list = [s for s in file_list if s]
@@ -94,7 +94,7 @@ model.add(Dense(126))
 model.add(Dropout(0.2))
 model.add(Dense(30))
 model.add(Dropout(0.2))
-model.add(Dense(2, activation='softmax'))
+model.add(Dense(6, activation='softmax'))
 
 opt = tf.keras.optimizers.Adam(lr=0.001, decay=1e-6)
 
@@ -109,7 +109,7 @@ print('done compiling')
 print(model.fit(x_train,
           y_train,
           verbose=2,
-          epochs=10))
+          epochs=100))
 
 print('done fitting')
 print(model.evaluate(x_test,y_test))
