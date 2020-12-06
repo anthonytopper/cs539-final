@@ -10,7 +10,7 @@ import math
 
 labels = ['SAD','HAP','ANG','DIS','FEA','NEU']
 
-
+include = ['HI.']
 
 from preprocess_parselmouth import preproc_intensity
 
@@ -53,6 +53,10 @@ def load(filename):
     return {'x':x,'y':y}
 
 def get_label(filename):
+
+    if len(include) > 0 and not any(i in filename for i in include):
+        return None
+
     y = [0] * len(labels)
     for i,l in enumerate(labels):
         if l in filename:
