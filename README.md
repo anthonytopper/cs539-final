@@ -78,10 +78,10 @@ After this, the keras model can be fit and trained using a training dataset. A v
 
 
 #### Architecture : 
-	The input layer will be the GRU layer which will take the 3-dimensional input of the audio features with batch size 128. The initial GRU layer will return a 3-dimensional output data to the next GRU layer as the return_sequence = TRUE. A flatten layer is used to convert the 3-dimensional data into 1-dimensional data to be processed by the Dense layer with activation function as rectifier linear unit. The final output layer consists of 6 nodes each representing the label of the target function. The model is compiled with categorical_crossentropy as the loss value and adam optimizer as the optimization algorithm. The Model is trained with 70% of the total audio data sampled randomly and tested on the rest 30% of the audio data.
+The input layer will be the GRU layer which will take the 3-dimensional input of the audio features with batch size 128. The initial GRU layer will return a 3-dimensional output data to the next GRU layer as the return_sequence = TRUE. A flatten layer is used to convert the 3-dimensional data into 1-dimensional data to be processed by the Dense layer with activation function as rectifier linear unit. The final output layer consists of 6 nodes each representing the label of the target function. The model is compiled with categorical_crossentropy as the loss value and adam optimizer as the optimization algorithm. The Model is trained with 70% of the total audio data sampled randomly and tested on the rest 30% of the audio data.
 
 #### Other models from hyper parameter tuning:
-	We tried multiple models with different structure in the nodes and layer to check their performance in the test data. The model mentioned above is acquired as optimal model from cross validation. 
+We tried multiple models with different structure in the nodes and layer to check their performance in the test data. The model mentioned above is acquired as optimal model from cross validation. 
 
 #### Model 1 : With LSTM
 ![Model-01.png](figures/Model-01.png)
