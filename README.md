@@ -24,19 +24,19 @@ https://www.kaggle.com/ejlok1/cremad
 
 * Periodogram
 
-![periodogram-resize.png](/Users/anthony/Git/CS539/cs539-final/figures/periodogram-resize.png.jpg)
+![periodogram-resize.png](figures/periodogram-resize.png.jpg)
 
 * Intensity
 
-![intensity1.png](/Users/anthony/Git/CS539/cs539-final/figures/intensity1.png.jpg)
+![intensity1.png](figures/intensity1.png.jpg)
 
-![intensity2-resize.png](/Users/anthony/Git/CS539/cs539-final/figures/intensity2-resize.png.jpg)
+![intensity2-resize.png](figures/intensity2-resize.png.jpg)
 
 * Fundamental Frequency
 
-![freq-resize.png](/Users/anthony/Git/CS539/cs539-final/figures/freq-resize.png.jpg)
+![freq-resize.png](figures/freq-resize.png.jpg)
 
 * Harmonicity
 
-![harm-resize.png](/Users/anthony/Git/CS539/cs539-final/figures/harm-resize.png.jpg)
+![harm-resize.png](figures/harm-resize.png.jpg)
 
