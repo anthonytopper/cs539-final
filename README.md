@@ -100,3 +100,35 @@ We tried multiple models with different structure in the nodes and layer to chec
 
 #### Model 6 : Batch size 32
 ![Model-06.png](figures/Model-06.png)
+
+### Results:
+
+#### Training on the final model
+
+As you can see from the plot below, the training over 100 epochs showed a significant decrease in the loss.
+
+![TrainingLossPlot.png](figures/TrainingLossPlot.png)
+
+#### Binary Classification
+
+We first trained and tested our model on binary classification using only the Happy and Sad audio files. This would provide a good baseline model performance since binary classification is much simpler than multiclass classification. The labels Happy and Sad were chosen out of the six emotions because they were the most opposite to each other. 
+After training for 100 epochs, the model was able to achieve a training accuracy of 88.93% and a testing accuracy of 77.98%.
+
+#### Multiclass Classification
+
+The model was then also trained and tested on all 6 of the emotions in a much more complex multiclass classification setting. The model was able to achieve 61.53% training accuracy and 31.80% testing accuracy after 100 epochs. 
+
+### Conclusion
+
+Emotion recognition using timeseries voice data is a very new and highly complex problem and is in high demand with the increase of smart assistants such as 'Siri' and 'Alexa'. We found that our model was able to perform well in a simple binary classification setting, but was unable to accurately identify between all 6 of the emotions present in this dataset. This shows that the model was able to learn and identify the large difference between Happy and Sad emotions, but was unable to learn the more subtle differences in voice data for the other emotions. 
+
+### Future Work
+
+We would like to experiment with and implement more complex feature extraction methods to see what kind of features help to distinguish between emotions in human speech. We would also like to implement some data augmentation methods in order to both increase our dataset as well as building a more robust model that is not as susceptible to errors caused by noise in the data. 
+
+### References
+
+- CREMA - https://github.com/CheyneyComputerScience/CREMA-D
+- Parselmouth - https://parselmouth.readthedocs.io/en/stable/
+- Paper Source - https://www.aclweb.org/anthology/D18-1280/
+- GRU - https://blog.floydhub.com/gru-with-pytorch/
