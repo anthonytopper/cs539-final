@@ -123,8 +123,7 @@ The model was then also trained and tested on all 6 of the emotions in a much mo
 Emotion recognition using timeseries voice data is a very new and highly complex problem and is in high demand with the increase of smart assistants such as 'Siri' and 'Alexa'. We found that our model was able to perform well in a simple binary classification setting, but was unable to accurately identify between all 6 of the emotions present in this dataset. This shows that the model was able to learn and identify the large difference between Happy and Sad emotions, but was unable to learn the more subtle differences in voice data for the other emotions. 
 
 ### Future Work
-
-We would like to experiment with and implement more complex feature extraction methods to see what kind of features help to distinguish between emotions in human speech. We would also like to implement some data augmentation methods in order to both increase our dataset as well as building a more robust model that is not as susceptible to errors caused by noise in the data. 
+The nature and complexity of the data posed a lot of challenges during this project. The subtle differences between some of the emotions in the audio files were hard to distinguish even as a human due to a large number of 'low' and 'medium' intensity samples. In the future we would like to experiment with and implement more complex feature extraction methods to see what kind of features help to distinguish between emotions in human speech. We would also like to implement some data augmentation methods in order to both increase our dataset as well as building a more robust model that is not as susceptible to errors caused by noise in the data. We attempted to only use the 'hi' intensity samples to train and test our model, however got poor results most likely due to the lack of training data. With more training data and complex features we expect the model performance to increase significantly.
 
 ### References
 
