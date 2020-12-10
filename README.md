@@ -6,7 +6,9 @@ Jack Charbonneau, Jannik Haas, Sitanshu Rupani, Ronak Sankaranarayanan, Anthony 
 
 **Crowd-sourced Emotional Mutimodal Actors**
 
-https://www.kaggle.com/ejlok1/cremad
+Data: https://github.com/CheyneyComputerScience/CREMA-D
+
+Associated Paper: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4313618/
 
 - 7,442 audio clips of one sentence each
 
@@ -127,7 +129,7 @@ The nature and complexity of the data posed a lot of challenges during this proj
 
 ### References
 
-- CREMA - https://github.com/CheyneyComputerScience/CREMA-D
+- CREMA - https://github.com/CheyneyComputerScience/CREMA-D and https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4313618/
 - Parselmouth - https://parselmouth.readthedocs.io/en/stable/
 - Paper Source - https://www.aclweb.org/anthology/D18-1280/
 - GRU - https://blog.floydhub.com/gru-with-pytorch/
