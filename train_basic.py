@@ -20,7 +20,7 @@ if process:
         result['y'] = y
 
         return result
-    file_list = ['AudioWAV/%s' % f for f in os.listdir('AudioWAV') if os.path.isfile('AudioWAV/%s' % f)][:10]
+    file_list = ['AudioWAV/%s' % f for f in os.listdir('AudioWAV') if os.path.isfile('AudioWAV/%s' % f)]
     file_list = file_list #[0:200]
     
     file_list = [load_sample.load(s) for s in file_list]
