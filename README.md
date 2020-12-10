@@ -2,6 +2,8 @@
 
 Jack Charbonneau, Jannik Haas, Sitanshu Rupani, Ronak Sankaranarayanan, Anthony Topper
 
+Source Code: https://github.com/anthonytopper/cs539-final
+
 ### CREMA Dataset
 
 **Crowd-sourced Emotional Mutimodal Actors**
