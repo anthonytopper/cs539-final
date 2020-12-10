@@ -20,7 +20,7 @@ if process:
         result['y'] = y
 
         return result
-    file_list = ['AudioWAV/%s' % f for f in os.listdir('AudioWAV') if os.path.isfile('AudioWAV/%s' % f)]
+    file_list = ['AudioWAV/%s' % f for f in os.listdir('AudioWAV') if os.path.isfile('AudioWAV/%s' % f)][:10]
     file_list = file_list #[0:200]
     
     file_list = [load_sample.load(s) for s in file_list]
@@ -33,25 +33,6 @@ if process:
     
     samples_train = file_list[:int(len(file_list) * 0.7)]
     samples_test  = file_list[int(len(file_list) * 0.7):]
-
-    #samples_train = [load_sample.load(s) for s in SAMPLES_TRAIN] 
-    #samples_test  = [load_sample.load(s) for s in SAMPLES_TEST]
-
-    # Remove skipped
-    #samples_train = [s for s in samples_train if s]
-    #samples_test  = [s for s in samples_test  if s]
-
-    # Maximum size for all samples
-    #max_size = max([len(s['x']) for s in (samples_train+samples_test)])
-
-    #samples_train = [zeropad(s,max_size) for s in samples_train]
-    #samples_test  = [zeropad(s,max_size) for s in samples_test]
-
-
-    # tf.reset_default_graph()
-    # K.clear_session()
-
-    # [samples, time steps, features]
     
     x_train = np.array([s['x'] for s in samples_train])
     y_train = np.array([s['y'] for s in samples_train])
@@ -73,10 +54,10 @@ else:
 input_shape = (x_train.shape[1:])
 
 model = Sequential()
-model.add(GRU(512, return_sequences=True,dropout=0.2, input_shape=(x_train.shape[1],4)))
-model.add(GRU(256,dropout=0.2, return_sequences=True))
+model.add(GRU(90, return_sequences=True,dropout=0.2, input_shape=(x_train.shape[1],4)))
+model.add(GRU(60,dropout=0.2, return_sequences=True))
 model.add(Flatten())
-model.add(Dense(126))
+model.add(Dense(60))
 model.add(Dropout(0.2))
 model.add(Dense(30))
 model.add(Dropout(0.2))
