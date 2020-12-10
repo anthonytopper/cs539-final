@@ -20,7 +20,7 @@ if process:
         result['y'] = y
 
         return result
-    file_list = ['AudioWAV/%s' % f for f in os.listdir('AudioWAV') if os.path.isfile('AudioWAV/%s' % f)]
+    file_list = ['AudioWAV/%s' % f for f in os.listdir('AudioWAV') if os.path.isfile('AudioWAV/%s' % f)][:10]
     file_list = file_list #[0:200]
     
     file_list = [load_sample.load(s) for s in file_list]
@@ -33,15 +33,6 @@ if process:
     
     samples_train = file_list[:int(len(file_list) * 0.7)]
     samples_test  = file_list[int(len(file_list) * 0.7):]
-
-    def zeropad(input,size):
-        x = input['x']
-        y = input['y']
-        result = {}
-        result['x'] = np.pad(x,((0,size-len(x)),(0,0)),'constant')
-        result['y'] = y
-
-        return result
 
     #samples_train = [load_sample.load(s) for s in SAMPLES_TRAIN] 
     #samples_test  = [load_sample.load(s) for s in SAMPLES_TEST]
@@ -79,17 +70,12 @@ else:
     x_test = np.load('x_test.npy')
     y_test = np.load('y_test.npy')
 
-
-#a = input('Break')
 input_shape = (x_train.shape[1:])
-
 
 model = Sequential()
 model.add(GRU(512, return_sequences=True,dropout=0.2, input_shape=(x_train.shape[1],4)))
 model.add(GRU(256,dropout=0.2, return_sequences=True))
-#model.add(Dense(512))
 model.add(Flatten())
-#model.add(Dropout(0.2))
 model.add(Dense(126))
 model.add(Dropout(0.2))
 model.add(Dense(30))
